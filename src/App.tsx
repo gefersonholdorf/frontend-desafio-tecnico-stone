@@ -1,9 +1,9 @@
-import { Button } from "./components/ui/button";
+import { Employees } from "./pages/employees";
 
 export function App() {
   return (
     <>
-      <Button>Teste</Button>
+      <Employees />
     </>
   )
 }
