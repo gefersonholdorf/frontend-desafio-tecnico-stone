@@ -19,34 +19,15 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-const frameworks = [
-    {
-        value: "next.js",
-        label: "Next.js",
-    },
-    {
-        value: "sveltekit",
-        label: "SvelteKit",
-    },
-    {
-        value: "nuxt.js",
-        label: "Nuxt.js",
-    },
-    {
-        value: "remix",
-        label: "Remix",
-    },
-    {
-        value: "astro",
-        label: "Astro",
-    },
-]
-
 export interface ComboboxProps {
     placeholder?: string
+    values: {
+        value: number | string,
+        label: string
+    }[]
 }
 
-export function Combobox({ placeholder }: ComboboxProps) {
+export function Combobox({ placeholder, values }: ComboboxProps) {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
 
@@ -60,34 +41,35 @@ export function Combobox({ placeholder }: ComboboxProps) {
                     className="w-full justify-between bg-white text-zinc-500"
                 >
                     {value
-                        ? frameworks.find((framework) => framework.value === value)?.label
+                        ? values.find((item) => String(item.value) === value)?.label
                         : placeholder}
                     <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
                 <Command className="w-full">
-                    <CommandInput placeholder="Search framework..." />
+                    <CommandInput placeholder={placeholder} />
                     <CommandList className="w-full">
-                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandEmpty>No results found.</CommandEmpty>
                         <CommandGroup className="w-full">
-                            {frameworks.map((framework) => (
+                            {values.map((item) => (
                                 <CommandItem
-                                    key={framework.value}
-                                    value={framework.value}
+                                    key={item.value}
+                                    value={item.label}
                                     onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? "" : currentValue)
+                                        const selected = values.find((item) => item.label === currentValue)
+                                        setValue(selected ? String(selected.value) : "")
                                         setOpen(false)
                                     }}
-                                    className="w-full"
                                 >
+
                                     <CheckIcon
                                         className={cn(
                                             "mr-2 h-4 w-4",
-                                            value === framework.value ? "opacity-100" : "opacity-0"
+                                            value === item.value ? "opacity-100" : "opacity-0"
                                         )}
                                     />
-                                    {framework.label}
+                                    {item.label}
                                 </CommandItem>
                             ))}
                         </CommandGroup>
