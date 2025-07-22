@@ -24,12 +24,13 @@ export interface ComboboxProps {
     values: {
         value: number | string,
         label: string
-    }[]
+    }[],
+    value?: string | number,
+    onChange: (value: string) => void
 }
 
-export function Combobox({ placeholder, values }: ComboboxProps) {
+export function Combobox({ placeholder, values, value, onChange }: ComboboxProps) {
     const [open, setOpen] = React.useState(false)
-    const [value, setValue] = React.useState("")
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -58,7 +59,7 @@ export function Combobox({ placeholder, values }: ComboboxProps) {
                                     value={item.label}
                                     onSelect={(currentValue) => {
                                         const selected = values.find((item) => item.label === currentValue)
-                                        setValue(selected ? String(selected.value) : "")
+                                        onChange(selected ? String(selected.value) : "")
                                         setOpen(false)
                                     }}
                                 >

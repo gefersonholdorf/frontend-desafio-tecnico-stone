@@ -3,6 +3,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { BrowserRouter, Route, Routes } from 'react-router'
 
 const queryClient = new QueryClient()
 
@@ -10,7 +11,11 @@ export function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Employees />
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<Employees />} />
+          </Routes>
+        </BrowserRouter>
       </QueryClientProvider>
     </>
   )

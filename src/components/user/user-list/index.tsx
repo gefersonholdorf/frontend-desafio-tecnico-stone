@@ -1,10 +1,15 @@
-import { useFetchEmployees } from "@/http/use-fetch-employees";
+import { useFetchEmployees, type EmployeeFiltered, type PaginationParams } from "@/http/use-fetch-employees";
 import { UserCard } from "../user-card";
 import { UserCardAvatar } from "../user-card/user-card-avatar";
 import { UserCardInfo } from "../user-card/user-card-info";
 
-export function UserList() {
-    const { data, isPending, isError } = useFetchEmployees()
+export interface UserListProps {
+    paginationParams: PaginationParams
+    employeeFiltered: EmployeeFiltered
+}
+
+export function UserList({ paginationParams, employeeFiltered }: UserListProps) {
+    const { data, isPending, isError } = useFetchEmployees(paginationParams, employeeFiltered)
 
     if (isPending) {
         return <div>Carregando dados...</div>
